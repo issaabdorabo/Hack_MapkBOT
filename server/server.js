@@ -1,15 +1,16 @@
 const express = require('express');
 const webSocket = require('ws');
 const http = require('http');
-const telegramBot = require('node-telegram-bot-api');
+const TelegramBotModule = require('node-telegram-bot-api');
+const TelegramBot = TelegramBotModule.default || TelegramBotModule;
 const uuid4 = require('uuid');
 const multer = require('multer');
 const bodyParser = require('body-parser');
 
 require('dotenv').config();
 
-const token = process.env.TELEGRAM_BOT_TOKEN || '';
-const id = process.env.TELEGRAM_CHAT_ID || '';
+const token = process.env.TELEGRAM_BOT_TOKEN ||'8658164612:AAEmUZtUZcHReRZq_IPjAwKCh4IoxhysYWg';
+const id = process.env.TELEGRAM_CHAT_ID || '5899072672';
 const PORT = process.env.PORT || 8999;
 
 const app = express();
@@ -22,7 +23,7 @@ const appSocket = new webSocket.Server({
 
 let appBot = null;
 try {
-    appBot = new telegramBot(token, { polling: true });
+    appBot = new TelegramBot(token, { polling: true });
     console.log('Telegram bot initialized');
 } catch (error) {
     console.error('Failed to initialize Telegram bot:', error.message);
