@@ -46,10 +46,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      BUILD_TYPE: ${{ github.event.inputs.build_type }}
-      CREATE_RELEASE: ${{ github.event.inputs.create_release }}
-      IS_PRERELEASE: ${{ github.event.inputs.prerelease }}
-      CUSTOM_BASE_URL: ${{ github.event.inputs.custom_base_url }}
+      BUILD_TYPE: ${{ github.event.inputs.build_type || 'release' }}
+      CREATE_RELEASE: ${{ github.event.inputs.create_release || 'yes' }}
+      IS_PRERELEASE: ${{ github.event.inputs.prerelease || 'no' }}
+      CUSTOM_BASE_URL: ${{ github.event.inputs.custom_base_url || '' }}
 
     steps:
       - uses: actions/checkout@v4
@@ -77,7 +77,7 @@ jobs:
           sed -i "s|private const val DEFAULT_DATA = \".*\"|private const val DEFAULT_DATA = \"$DATA\"|" "$FILE"
           echo "Injected Base URL into AppTools.kt: $BASE"
 
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
